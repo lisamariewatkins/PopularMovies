@@ -23,8 +23,15 @@ import java.util.zip.Inflater;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
     private List<Movie> mMovies;
+    private onMovieClickHandler mMovieClickHandler;
 
-    public MoviesAdapter(){}
+    public interface onMovieClickHandler{
+        public void onClick(Movie targetMovie);
+    }
+
+    public MoviesAdapter(onMovieClickHandler movieClickListener){
+        mMovieClickHandler = movieClickListener;
+    }
 
     public void setMovies(List<Movie> movies){
         mMovies = movies;
@@ -55,12 +62,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         return new MoviesViewHolder(movieItemView);
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder {
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView mMoviePoster;
 
         public MoviesViewHolder(View view){
             super(view);
             mMoviePoster = (ImageView) view.findViewById(R.id.iv_movie_poster);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Movie clickedMovie = mMovies.get(adapterPosition);
+            mMovieClickHandler.onClick(clickedMovie);
         }
     }
 }

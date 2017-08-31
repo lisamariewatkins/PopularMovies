@@ -17,12 +17,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
-    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
     private static final String POPULAR = "popular?";
     private static final String TOP_RATED = "top_rated?";
     private static final String API_PARAM = "api_key=";
     private static final String API_KEY = "key";
-    private static final String SIZE = "w185";
+    private static final String SIZE = "w185/";
 
     public static URL buildMoviesUrl (String parameter){
         Uri buildUri = null;
@@ -56,7 +56,9 @@ public class NetworkUtils {
 
     public static Uri buildPosterUrl(String posterId){
         Uri movieUri = Uri.parse(BASE_POSTER_URL)
-                .buildUpon().appendPath(posterId)
+                .buildUpon()
+                .appendPath(SIZE)
+                .appendPath(posterId)
                 .build();
         return movieUri;
     }

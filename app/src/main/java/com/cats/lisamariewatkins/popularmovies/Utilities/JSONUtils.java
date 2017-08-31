@@ -17,8 +17,8 @@ import java.util.List;
  */
 
 public class JSONUtils {
-    public static List<Movie> getMovie(Context context, String JsonStr) throws JSONException{
-        final String OWM_LIST = "list";
+    public static List<Movie> getMovies(Context context, String JsonStr) throws JSONException{
+        final String OWM_LIST = "results";
         final String OWM_MESSAGE_CODE = "cod";
         List<Movie> parsedMovieData = new ArrayList<Movie>();
 
@@ -42,8 +42,19 @@ public class JSONUtils {
         for(int i = 0; i < movieArray.length(); i++){
             Movie movie = new Movie();
             JSONObject movieObject = movieArray.getJSONObject(i);
+
             String posterPath = movieObject.getString("poster_path");
+            String title = movieObject.getString("title");
+            String overview = movieObject.getString("overview");
+            int userRating = movieObject.getInt("vote_average");
+            String releaseDate = movieObject.getString("release_date");
+
             movie.setPosterPath(posterPath);
+            movie.setTitle(title);
+            movie.setOverview(overview);
+            movie.setUserRating(userRating);
+            movie.setReleaseDate(releaseDate);
+
             parsedMovieData.add(movie);
         }
 
