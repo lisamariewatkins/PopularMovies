@@ -17,6 +17,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
     private static final String POPULAR = "popular?";
     private static final String TOP_RATED = "top_rated?";
     private static final String API_PARAM = "api_key=";
@@ -53,7 +54,15 @@ public class NetworkUtils {
         return resultUrl;
     }
 
-    public static String downloadMovies(URL url) throws IOException{
+    public static Uri buildPosterUrl(String posterId){
+        Uri movieUri = Uri.parse(BASE_POSTER_URL)
+                .buildUpon().appendPath(posterId)
+                .build();
+        return movieUri;
+    }
+
+
+    public static String downloadUrl(URL url) throws IOException{
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();

@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.cats.lisamariewatkins.popularmovies.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.zip.Inflater;
 
 /**
@@ -19,26 +22,26 @@ import java.util.zip.Inflater;
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
-    private String[] mMovies;
+    private List<Movie> mMovies;
 
     public MoviesAdapter(){}
 
-    public void setMovies(String[] movies){
+    public void setMovies(List<Movie> movies){
         mMovies = movies;
     }
 
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
-        String currentMovie = mMovies[position];
-        Uri currentMovieUri = Uri.parse(currentMovie);
+        Movie currentMovie = mMovies.get(position);
+        Uri moviePosterUrl = NetworkUtils.buildPosterUrl(currentMovie.getPosterPath());
         Context context = holder.mMoviePoster.getContext();
 
-        Picasso.with(context).load(currentMovieUri).into(holder.mMoviePoster);
+        Picasso.with(context).load(moviePosterUrl).into(holder.mMoviePoster);
     }
 
     @Override
     public int getItemCount() {
-        return mMovies.length;
+        return mMovies.size();
     }
 
     @Override
