@@ -55,7 +55,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void passDataToViews(){
         Uri moviePosterUrl = NetworkUtils.buildPosterUrl(mImageURL);
         Context context = this.mPosterIV.getContext();
-        String releaseDate = getApplicationContext().getString(R.string.release_date, mReleaseDate)
+        String releaseDate = getApplicationContext().getString(R.string.release_date, mReleaseDate);
         String rating = getApplicationContext().getString(R.string.rating, mRating);
 
         mTitleTV.setText(mTitle);
