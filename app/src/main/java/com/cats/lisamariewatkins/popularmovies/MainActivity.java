@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
     }
 
     private void loadMovieData(){
-        if(sortBy.isEmpty() && sortBy == null){
+        if(sortBy == null){
             new MovieTask().execute(DEFAULT_SORTING);
         }
         else{
@@ -84,11 +84,13 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
 
     private void showErrorView(){
         mMovieRecylerView.setVisibility(View.INVISIBLE);
+        mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
 
     private void showSuccessView(){
         mMovieRecylerView.setVisibility(View.VISIBLE);
+        mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.INVISIBLE);
     }
 
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
 
         @Override
         protected void onPostExecute(List<Movie> movies) {
-            if(!movies.isEmpty()) {
+            if(movies != null) {
                 showSuccessView();
                 mMoviesAdapter.setMovies(movies);
             }
