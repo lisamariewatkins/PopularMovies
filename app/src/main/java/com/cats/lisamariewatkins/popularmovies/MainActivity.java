@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
             String sortingPreference = params[0];
 
             URL moviesRequest = NetworkUtils.buildMoviesUrl(sortingPreference);
-
             try{
                 String jsonResponse = NetworkUtils.downloadUrl(moviesRequest);
                 List<Movie> movieData = JSONUtils.getMovies(MainActivity.this, jsonResponse);
@@ -148,13 +148,17 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
         switch(id){
             case R.id.popular:
                 sortBy = DEFAULT_SORTING;
+                loadMovieData();
                 return true;
             case R.id.top_rated:
+                Log.i("***", "Sort by top rated called");
                 sortBy = TOP_RATED;
+                Log.i("***", sortBy);
+                loadMovieData();
                 return true;
         }
 
-        loadMovieData();
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -19,12 +19,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org";
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
     private static final String API_KEY = "key";
-    private static final String SIZE = "w185/";
+    private static final String SIZE = "w185";
 
     public static URL buildMoviesUrl (String parameter){
         Uri buildUri = null;
@@ -39,12 +39,14 @@ public class NetworkUtils {
                         .build();
                 break;
             case "top_rated":{
+                Log.i("***", "top rated is called in network utils");
                 buildUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath("3")
                         .appendPath("movie")
-                        .path(TOP_RATED)
+                        .appendPath(TOP_RATED)
                         .appendQueryParameter(API_PARAM, API_KEY)
                         .build();
+                Log.i("***", buildUri.toString());
                 break;
             }
         }
@@ -55,7 +57,6 @@ public class NetworkUtils {
         } catch (MalformedURLException e){
             e.printStackTrace();
         }
-        Log.i("***", resultUrl.toString());
         return resultUrl;
     }
 
@@ -65,7 +66,7 @@ public class NetworkUtils {
                 .appendPath("t")
                 .appendPath("p")
                 .appendPath(SIZE)
-                .appendPath(posterId)
+                .appendEncodedPath(posterId)
                 .build();
         return movieUri;
     }

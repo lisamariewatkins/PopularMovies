@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     public void setMovies(List<Movie> movies){
         mMovies = movies;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -71,6 +73,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         public MoviesViewHolder(View view){
             super(view);
             mMoviePoster = (ImageView) view.findViewById(R.id.iv_movie_poster);
+            view.setOnClickListener(this);
         }
 
         @Override
