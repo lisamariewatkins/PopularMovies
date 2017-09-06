@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 
@@ -42,7 +43,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
     private static final int NUMBER_OF_COLUMNS = 3;
     private static final String DEFAULT_SORTING = "popular";
     private static final String TOP_RATED = "top_rated";
-    private String sortBy;
+    private String sortBy = DEFAULT_SORTING;
+    private static final String PREFS_NAME = "MyPrefsFile";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +83,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
     }
 
     private void loadMovieData(){
-        if(sortBy == null){
-            new MovieTask().execute(DEFAULT_SORTING);
-        }
-        else{
-            new MovieTask().execute(sortBy);
-        }
+        SharedPreferences pref = getApplication().getSharedPreferences("MyPref", MODE_PRIVATE);
+
+        sortBy = pref.getString("SORT_BY", "popular");
+
+        new MovieTask().execute(sortBy);
     }
 
     private void showErrorView(){
@@ -147,19 +150,24 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        SharedPreferences pref = this.getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
         switch(id){
             case R.id.popular:
                 sortBy = DEFAULT_SORTING;
+                editor.putString("SORT_BY", sortBy);
+                editor.apply();
                 loadMovieData();
                 return true;
             case R.id.top_rated:
-                Log.i("***", "Sort by top rated called");
                 sortBy = TOP_RATED;
-                Log.i("***", sortBy);
+                editor.putString("SORT_BY", sortBy);
+                editor.apply();
                 loadMovieData();
                 return true;
         }
+
 
 
 
