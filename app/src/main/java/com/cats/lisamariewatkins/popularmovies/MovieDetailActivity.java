@@ -21,8 +21,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String mOverview;
     private TextView mTitleTV;
     private ImageView mPosterIV;
-    private TextView mRatingTV;
-    private TextView mReleaseDateTV;
+    private TextView mDetailsTV;
     private TextView mOverviewTV;
     Intent intentThatStartedActivity;
 
@@ -37,8 +36,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mTitleTV = (TextView) findViewById(R.id.title_tv);
         mPosterIV = (ImageView) findViewById(R.id.movie_poster_iv);
-        mRatingTV = (TextView) findViewById(R.id.rating_tv);
-        mReleaseDateTV = (TextView) findViewById(R.id.release_date_tv);
+        mDetailsTV = (TextView) findViewById(R.id.details_tv);
+
         mOverviewTV = (TextView) findViewById(R.id.overview_tv);
 
         passDataToViews();
@@ -60,8 +59,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mTitleTV.setText(mTitle);
         Picasso.with(context).load(moviePosterUrl).into(mPosterIV);
-        mRatingTV.setText(rating);
-        mReleaseDateTV.setText(releaseDate);
+        mDetailsTV.append(rating + "\n");
+        mDetailsTV.append(releaseDate);
         mOverviewTV.setText(mOverview);
     }
 
