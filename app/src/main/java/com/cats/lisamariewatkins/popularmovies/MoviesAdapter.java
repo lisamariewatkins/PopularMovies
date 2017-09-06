@@ -3,12 +3,12 @@ package com.cats.lisamariewatkins.popularmovies;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
 import android.widget.ImageView;
 
 import com.cats.lisamariewatkins.popularmovies.Models.Movie;
@@ -16,18 +16,14 @@ import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
-/**
- * Created by lisamwatkins on 8/30/17.
- */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
     private List<Movie> mMovies;
-    private onMovieClickHandler mMovieClickHandler;
+    private final onMovieClickHandler mMovieClickHandler;
 
     public interface onMovieClickHandler{
-        public void onClick(Movie targetMovie);
+        void onClick(Movie targetMovie);
     }
 
     public MoviesAdapter(onMovieClickHandler movieClickListener){

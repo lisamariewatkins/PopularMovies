@@ -2,12 +2,11 @@ package com.cats.lisamariewatkins.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+
+
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
+
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,9 +16,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+
 import android.widget.TextView;
 
 import com.cats.lisamariewatkins.popularmovies.Utilities.JSONUtils;
@@ -31,6 +30,11 @@ import java.net.URL;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.onMovieClickHandler{
+    public static final String POSTER_PATH = "poster_path";
+    public static final String TITLE = "title";
+    public static final String OVERVIEW = "overview";
+    public static final String RATING = "rating";
+    public static final String RELEASE_DATE = "release_date";
     private RecyclerView mMovieRecylerView;
     private MoviesAdapter mMoviesAdapter;
     private TextView mErrorTextView;
@@ -65,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
         Context context = MainActivity.this;
         Intent intent = new Intent(context, targetActivity);
 
-        intent.putExtra("poster_path", targetMovie.getPosterPath());
-        intent.putExtra("title", targetMovie.getTitle());
-        intent.putExtra("overview", targetMovie.getOverview());
-        intent.putExtra("rating", targetMovie.getUserRating());
-        intent.putExtra("release_date", targetMovie.getReleaseDate());
+        intent.putExtra(POSTER_PATH, targetMovie.getPosterPath());
+        intent.putExtra(TITLE, targetMovie.getTitle());
+        intent.putExtra(OVERVIEW, targetMovie.getOverview());
+        intent.putExtra(RATING, targetMovie.getUserRating());
+        intent.putExtra(RELEASE_DATE, targetMovie.getReleaseDate());
 
         startActivity(intent);
     }
@@ -95,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
         mErrorTextView.setVisibility(View.INVISIBLE);
     }
 
-    public class MovieTask extends AsyncTask<String, Void, List<Movie>> {
+    private class MovieTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -114,8 +118,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
             URL moviesRequest = NetworkUtils.buildMoviesUrl(sortingPreference);
             try{
                 String jsonResponse = NetworkUtils.downloadUrl(moviesRequest);
-                List<Movie> movieData = JSONUtils.getMovies(MainActivity.this, jsonResponse);
-                return movieData;
+                return JSONUtils.getMovies(jsonResponse);
             }catch(Exception e){
                 e.printStackTrace();
                 return null;

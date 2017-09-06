@@ -13,14 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Beauty and the Beast"
+        android:text="@string/beauty_and_the_beast"
+        android:textColorLink="@android:color/black"
         android:textSize="24sp"
-        android:layout_marginBottom="0dp"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +37,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:paddingTop="0dp"
-            app:srcCompat="@drawable/batb" />
+            app:srcCompat="@drawable/batb"
+            android:contentDescription="@string/posterDescription"/>
 
         <TextView
             android:id="@+id/details_tv"
@@ -43,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 

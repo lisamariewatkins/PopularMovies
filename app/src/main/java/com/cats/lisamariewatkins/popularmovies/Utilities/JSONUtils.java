@@ -1,6 +1,6 @@
 package com.cats.lisamariewatkins.popularmovies.Utilities;
 
-import android.content.Context;
+
 
 import com.cats.lisamariewatkins.popularmovies.Models.Movie;
 
@@ -12,12 +12,8 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lisamwatkins on 8/30/17.
- */
-
 public class JSONUtils {
-    public static List<Movie> getMovies(Context context, String JsonStr) throws JSONException{
+    public static List<Movie> getMovies(String JsonStr) throws JSONException{
         final String OWM_LIST = "results";
         final String OWM_MESSAGE_CODE = "cod";
         List<Movie> parsedMovieData = new ArrayList<Movie>();
