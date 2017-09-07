@@ -1,7 +1,6 @@
 package com.cats.lisamariewatkins.popularmovies.Utilities;
 
 import android.net.Uri;
-import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -11,20 +10,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Created by lisamwatkins on 8/29/17.
- */
 
 public class NetworkUtils {
     private static final String BASE_URL = "https://api.themoviedb.org";
-    private static final String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+    private static final String MOVIE_PATH = "3/movie";
+    private static final String IMAGE_PATH = "t/p";
+    private static final String BASE_POSTER_URL = "http://image.tmdb.org";
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
     private static final String API_KEY = "key";
-    private static final String SIZE = "w185/";
+    private static final String SIZE = "w185";
 
     public static URL buildMoviesUrl (String parameter){
         Uri buildUri = null;
@@ -32,19 +29,19 @@ public class NetworkUtils {
         switch (parameter){
             case "popular":
                 buildUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendPath("3")
-                        .appendPath("movie")
+                        .appendEncodedPath(MOVIE_PATH)
                         .appendPath(POPULAR)
                         .appendQueryParameter(API_PARAM, API_KEY)
                         .build();
                 break;
             case "top_rated":{
+                Log.i("***", "top rated is called in network utils");
                 buildUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendPath("3")
-                        .appendPath("movie")
-                        .path(TOP_RATED)
+                        .appendEncodedPath(MOVIE_PATH)
+                        .appendPath(TOP_RATED)
                         .appendQueryParameter(API_PARAM, API_KEY)
                         .build();
+                Log.i("***", buildUri.toString());
                 break;
             }
         }
@@ -55,19 +52,16 @@ public class NetworkUtils {
         } catch (MalformedURLException e){
             e.printStackTrace();
         }
-        Log.i("***", resultUrl.toString());
         return resultUrl;
     }
 
     public static Uri buildPosterUrl(String posterId){
-        Uri movieUri = Uri.parse(BASE_POSTER_URL)
+        return Uri.parse(BASE_POSTER_URL)
                 .buildUpon()
-                .appendPath("t")
-                .appendPath("p")
+                .appendEncodedPath(IMAGE_PATH)
                 .appendPath(SIZE)
-                .appendPath(posterId)
+                .appendEncodedPath(posterId)
                 .build();
-        return movieUri;
     }
 
 
