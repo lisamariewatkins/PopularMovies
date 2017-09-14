@@ -20,7 +20,7 @@ public class NetworkUtils {
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
-    private static final String API_KEY = "key";
+    private static final String API_KEY = "";
     private static final String SIZE = "w185";
 
     public static URL buildMoviesUrl (String parameter){
