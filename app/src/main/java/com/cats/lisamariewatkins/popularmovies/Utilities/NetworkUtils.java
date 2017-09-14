@@ -1,6 +1,7 @@
 package com.cats.lisamariewatkins.popularmovies.Utilities;
 
 import android.net.Uri;
+import com.cats.lisamariewatkins.popularmovies.BuildConfig;
 import android.util.Log;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class NetworkUtils {
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
-    private static final String API_KEY = "";
+    private static final String API_KEY = BuildConfig.API_KEY;
     private static final String SIZE = "w185";
 
     public static URL buildMoviesUrl (String parameter){
