@@ -2,11 +2,8 @@ package com.cats.lisamariewatkins.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-
-
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,17 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.ProgressBar;
-
 import android.widget.TextView;
-
-import com.cats.lisamariewatkins.popularmovies.Utilities.JSONUtils;
-import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
-
 import com.cats.lisamariewatkins.popularmovies.Models.Movie;
-
-import java.net.URL;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.onMovieClickHandler{
@@ -84,10 +73,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
 
     private void loadMovieData(){
         SharedPreferences pref = getApplication().getSharedPreferences("MyPref", MODE_PRIVATE);
-
         sortBy = pref.getString("SORT_BY", "popular");
-
-        new MovieTask().execute(sortBy);
+        new MovieTask(this, new MovieTaskListener(), mLoadingProgressBar).execute(sortBy);
     }
 
     private void showErrorView(){
@@ -102,37 +89,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
         mErrorTextView.setVisibility(View.INVISIBLE);
     }
 
-    private class MovieTask extends AsyncTask<String, Void, List<Movie>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Movie> doInBackground(String... params) {
-            if(params.length == 0){
-                return null;
-            }
-
-            String sortingPreference = params[0];
-
-            URL moviesRequest = NetworkUtils.buildMoviesUrl(sortingPreference);
-            try{
-                String jsonResponse = NetworkUtils.downloadUrl(moviesRequest);
-                return JSONUtils.getMovies(jsonResponse);
-            }catch(Exception e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-            if(movies != null) {
+    public class MovieTaskListener implements AsyncTaskCompleteListener<List<Movie>> {
+        public void onTaskComplete(List<Movie> result){
+            if(result != null) {
                 showSuccessView();
-                mMoviesAdapter.setMovies(movies);
+                mMoviesAdapter.setMovies(result);
             }
             else{
                 showErrorView();
