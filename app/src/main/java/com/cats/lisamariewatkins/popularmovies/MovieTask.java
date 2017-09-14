@@ -47,7 +47,7 @@ public class MovieTask extends AsyncTask<String, Void, List<Movie>> {
 
         try{
             String jsonResponse = NetworkUtils.downloadUrl(moviesRequest);
-            List<Movie> movieData = JSONUtils.getMovies(mContext, jsonResponse);
+            List<Movie> movieData = JSONUtils.getMovies(jsonResponse);
             return movieData;
         }catch(Exception e){
             e.printStackTrace();
