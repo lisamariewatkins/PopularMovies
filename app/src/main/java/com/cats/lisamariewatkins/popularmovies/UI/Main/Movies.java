@@ -64,16 +64,8 @@ public class Movies extends AppCompatActivity implements MoviesContract.View, Mo
 
     @Override
     public void onClick(Movie targetMovie) {
-        Class targetActivity = MovieDetailActivity.class;
-        Context context = Movies.this;
-        Intent intent = new Intent(context, targetActivity);
-
-        intent.putExtra(POSTER_PATH, targetMovie.getPosterPath());
-        intent.putExtra(TITLE, targetMovie.getTitle());
-        intent.putExtra(OVERVIEW, targetMovie.getOverview());
-        intent.putExtra(RATING, targetMovie.getUserRating());
-        intent.putExtra(RELEASE_DATE, targetMovie.getReleaseDate());
-
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra(Movie.MOVIE_INTENT, targetMovie);
         startActivity(intent);
     }
 
@@ -84,7 +76,8 @@ public class Movies extends AppCompatActivity implements MoviesContract.View, Mo
     }
 
     @Override
-    public void showMovies() {
+    public void showMovies(List<Movie> movies) {
+        mMoviesAdapter.setMovies(movies);
         mMovieRecylerView.setVisibility(View.VISIBLE);
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.INVISIBLE);
