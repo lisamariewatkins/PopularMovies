@@ -1,4 +1,4 @@
-package com.cats.lisamariewatkins.popularmovies;
+package com.cats.lisamariewatkins.popularmovies.UI.Main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 
 import android.widget.ImageView;
 
-import com.cats.lisamariewatkins.popularmovies.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.Data.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.R;
 import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 

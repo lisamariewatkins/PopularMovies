@@ -2,7 +2,7 @@ package com.cats.lisamariewatkins.popularmovies.Utilities;
 
 
 
-import com.cats.lisamariewatkins.popularmovies.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.Data.Models.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;

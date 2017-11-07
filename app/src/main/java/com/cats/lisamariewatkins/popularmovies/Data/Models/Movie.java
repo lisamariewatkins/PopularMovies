@@ -1,11 +1,20 @@
-package com.cats.lisamariewatkins.popularmovies.Models;
+package com.cats.lisamariewatkins.popularmovies.Data.Models;
+
+import com.google.gson.annotations.SerializedName;
 
 public final class Movie {
+    @SerializedName("poster_path")
     private String posterPath;
+    @SerializedName("title")
     private String title;
+    @SerializedName("overview")
     private String overview;
+    @SerializedName("vote_average")
     private int userRating;
+    @SerializedName("release_date")
     private String releaseDate;
+
+    private String trailerUrl;
 
     public String getPosterPath() {
         return posterPath;
@@ -45,5 +54,13 @@ public final class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getTrailerUrl() {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
     }
 }

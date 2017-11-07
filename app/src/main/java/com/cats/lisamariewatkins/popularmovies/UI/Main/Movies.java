@@ -1,65 +1,71 @@
-package com.cats.lisamariewatkins.popularmovies;
+package com.cats.lisamariewatkins.popularmovies.UI.Main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.cats.lisamariewatkins.popularmovies.Models.Movie;
+
+import com.cats.lisamariewatkins.popularmovies.Data.DataManager;
+import com.cats.lisamariewatkins.popularmovies.Data.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.UI.MovieDetail.MovieDetailActivity;
+import com.cats.lisamariewatkins.popularmovies.R;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MoviesAdapter.onMovieClickHandler{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class Movies extends AppCompatActivity implements MoviesContract.View, MoviesAdapter.onMovieClickHandler {
     public static final String POSTER_PATH = "poster_path";
     public static final String TITLE = "title";
     public static final String OVERVIEW = "overview";
     public static final String RATING = "rating";
     public static final String RELEASE_DATE = "release_date";
-    private RecyclerView mMovieRecylerView;
+    @BindView(R.id.movies_rv) RecyclerView mMovieRecylerView;
     private MoviesAdapter mMoviesAdapter;
-    private TextView mErrorTextView;
-    private ProgressBar mLoadingProgressBar;
+    @BindView(R.id.error_message) TextView mErrorTextView;
+    @BindView(R.id.loading_progress) ProgressBar mLoadingProgressBar;
     private static final int NUMBER_OF_COLUMNS = 3;
     private static final String DEFAULT_SORTING = "popular";
     private static final String TOP_RATED = "top_rated";
     private String sortBy = DEFAULT_SORTING;
-    private static final String PREFS_NAME = "MyPrefsFile";
-
-
+    private MoviesPresenter mMoviesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMovieRecylerView = (RecyclerView) findViewById(R.id.movies_rv);
-        mErrorTextView = (TextView) findViewById(R.id.error_message);
-        mLoadingProgressBar = (ProgressBar) findViewById(R.id.loading_progress);
+        ButterKnife.bind(this);
+        setUpRecyclerView();
+        loadMovieData();
+    }
 
+    private void setUpRecyclerView(){
         GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
         mMovieRecylerView.setLayoutManager(layoutManager);
         mMovieRecylerView.setHasFixedSize(true);
 
+        mMoviesPresenter = new MoviesPresenter(this);
+
         mMoviesAdapter = new MoviesAdapter(this);
         mMovieRecylerView.setAdapter(mMoviesAdapter);
-
-        loadMovieData();
     }
 
     @Override
     public void onClick(Movie targetMovie) {
         Class targetActivity = MovieDetailActivity.class;
-        Context context = MainActivity.this;
+        Context context = Movies.this;
         Intent intent = new Intent(context, targetActivity);
 
         intent.putExtra(POSTER_PATH, targetMovie.getPosterPath());
@@ -74,31 +80,26 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
     private void loadMovieData(){
         SharedPreferences pref = getApplication().getSharedPreferences("MyPref", MODE_PRIVATE);
         sortBy = pref.getString("SORT_BY", "popular");
-        new MovieTask(this, new MovieTaskListener(), mLoadingProgressBar).execute(sortBy);
+        mMoviesPresenter.loadMovies(sortBy);
     }
 
-    private void showErrorView(){
-        mMovieRecylerView.setVisibility(View.INVISIBLE);
-        mLoadingProgressBar.setVisibility(View.INVISIBLE);
-        mErrorTextView.setVisibility(View.VISIBLE);
-    }
-
-    private void showSuccessView(){
+    @Override
+    public void showMovies() {
         mMovieRecylerView.setVisibility(View.VISIBLE);
         mLoadingProgressBar.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.INVISIBLE);
     }
 
-    public class MovieTaskListener implements AsyncTaskCompleteListener<List<Movie>> {
-        public void onTaskComplete(List<Movie> result){
-            if(result != null) {
-                showSuccessView();
-                mMoviesAdapter.setMovies(result);
-            }
-            else{
-                showErrorView();
-            }
-        }
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void showError(){
+        mMovieRecylerView.setVisibility(View.INVISIBLE);
+        mLoadingProgressBar.setVisibility(View.INVISIBLE);
+        mErrorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -128,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.onM
                 loadMovieData();
                 return true;
         }
-
-
-
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -1,11 +1,12 @@
-package com.cats.lisamariewatkins.popularmovies;
+package com.cats.lisamariewatkins.popularmovies.UI.Main;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.cats.lisamariewatkins.popularmovies.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.Data.Models.Movie;
+import com.cats.lisamariewatkins.popularmovies.UI.Main.AsyncTaskCompleteListener;
 import com.cats.lisamariewatkins.popularmovies.Utilities.JSONUtils;
 import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
 

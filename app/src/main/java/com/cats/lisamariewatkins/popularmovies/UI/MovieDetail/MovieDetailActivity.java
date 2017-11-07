@@ -1,4 +1,4 @@
-package com.cats.lisamariewatkins.popularmovies;
+package com.cats.lisamariewatkins.popularmovies.UI.MovieDetail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cats.lisamariewatkins.popularmovies.R;
 import com.cats.lisamariewatkins.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
